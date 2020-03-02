@@ -6,8 +6,7 @@ const app = express();
 app.use(express.static('public'));
 
 app.get('/',            (req, res) => {res.sendFile('index.html')});
-app.get('/index.html',  (req, res) => {res.sendFile('index.html')});
-//app.get('/index.css',   (req, res) => {res.sendFile('index.css')});
+app.get('/index.css',   (req, res) => {res.sendFile('index.css')});
 //app.get('/index.js',    (req, res) => {res.sendFile('index.js')});
 //app.get('/favicon.ico', (req, res) => {res.sendFile('favicon.ico')});
 
