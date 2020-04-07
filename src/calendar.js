@@ -81,6 +81,7 @@ function planningHandler(req, res) {
             if (acti.isRegistered())
                 events.push(acti);
         }
+        res.set('Content-Type', 'text/calendar');
         res.send(eventsToIcal(events));
     });
 }
@@ -94,6 +95,7 @@ function projectsHandler(req, res) {
             if (acti.isRegistered())
                 events.push(acti);
         }
+        res.set('Content-Type', 'text/calendar');
         res.send(eventsToIcal(events));
     });
 }
@@ -107,6 +109,7 @@ function projectsEndHandler(req, res) {
             if (acti.isRegistered())
                 events.push(acti);
         }
+        res.set('Content-Type', 'text/calendar');
         res.send(eventsToIcal(events));
     });
 }

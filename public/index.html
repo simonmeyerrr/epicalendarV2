@@ -1,95 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title> EpiCalendar V2 </title>
     <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" href="https://sindresorhus.com/github-markdown-css/github-markdown.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
+<article class="markdown-body">
+    <h1>EpiCalendar V2</h1>
+    <p>
+        Epicalendar is a tool to synchronize Epitech's intranet calendar to any ICalendar compatible service. (Example: Google Calendar, iOS Calendar, Outlook Calendar)
+    </p>
+    <p>
+        This version was developed using nodeJS and express. You can find the public github <a href="https://github.com/simonmeyerrr/epicalendarv2" target="_blank"> here </a>.
+    </p>
+    <h2>Use the following URL with your favorite calendar:</h2>
+    <ul>
+        <li><code>https://epicalendarv2.omnirem.dev/:autologin/planning.ics</code></li>
+        <p>This allows you to see all the activities to which you are registered. Appointment slots such as Follow-Up and Review are taken into account and only your slot will be displayed. Compatible with educational accounts.</p>
+        <li><code>https://epicalendarv2.omnirem.dev/:autologin/projects.ics</code></li>
+        <p>This allows you to see all the projects you are registered for with their start and end dates.</p>
+        <li><code>https://epicalendarv2.omnirem.dev/:autologin/projects-end.ics</code></li>
+        <p>This displays the project rendering dates. You can set up alarms to warn you when a project is about to finish.</p>
+    </ul>
+    <p>
+        You have to replace <code>:autologin</code> in the url by your autologin code that you can find <a href="https://intra.epitech.eu/admin/autolog" target="_blank"> here </a>.
+        Your autologin code is not saved in any database or in server's logs. If you still don't trust the service, you can host it on your personal server.
+    </p>
+    <h2>Sync instructions</h2>
+    <ul>
+        <li><a href="https://support.apple.com/guide/calendar/icl1022/mac" target="_blank">iOS Calendar</a></li>
+        <li><a href="https://support.google.com/calendar/answer/37100?hl=fr&co=GENIE.Platform=Desktop%20" target="_blank">Google Calendar</a></li>
+        <li><a href="https://support.office.com/en-us/article/import-or-subscribe-to-a-calendar-in-outlook-com-cff1429c-5af6-41ec-a5b4-74f2c278e98c?omkt=en-001&ui=en-US&rs=en-001&ad=US" target="_blank">Outlook Calendar</a></li>
+    </ul>
+    <h2> Get the link </h2>
+    <form id="form">
+        <label for="autologin">Autologin: </label>
+        <input type="text" name="autologin" id="autologin" placeholder="auth-6456456..." required/>
+        <label for="info"> Information: </label>
+        <select id="info" name="info">
+            <option value="planning"> Planning</option>
+            <option value="projects"> Projects</option>
+            <option value="projects-end"> Projects End</option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </form>
 
-<h1>EpiCalendar</h1>
-
-<p>
-    Epicalendar is a tool to synchronize Epitech's intranet calendar to any ICalendar compatible service.
-    (Example: Google Calendar, Apple Calendar, Outlook Calendar)
-
-    This version was developed using nodeJS and express, you can find the github page here:
-    https://github.com/simonmeyerrr/epicalendarv2
-</p>
-<p>
-    "Add a calendar from a URL" with your favorite calendar and use one of the following url:
-
-    - https://epicalendarv2.omnirem.dev/:autologin/planning.ics :
-
-    This allows you to see all the activities to which you are registered. Appointment slots such as Follow-Up and
-    Review are taken into account and only your slot will be displayed. Compatible with educational accounts.
-
-    - https://epicalendarv2.omnirem.dev/:autologin/projects.ics :
-
-    This allows you to see all the projects you are registered for with their start and end dates.
-
-    - https://epicalendarv2.omnirem.dev/:autologin/projects-end.ics :
-
-    This displays the project rendering dates. You can set up alarms to warn you when a project is about to finish.
-
-
-    You have to replace :autologin in the url by your autologin code that you can find on
-    https://intra.epitech.eu/admin/autolog
-
-    Your autologin code is not saved in any database or in server's logs. If you still don't trust the service, you can
-    host it on your personal server.
-</p>
-
-<h2> Get the link </h2>
-
-<form id="form">
-    <label for="autologin">Autologin: </label>
-    <input type="text" name="autologin" id="autologin" required/>
-
-    <label for="info"> Information: </label>
-    <select id="info" name="info">
-        <option value="planning"> Planning</option>
-        <option value="projects"> Projects</option>
-        <option value="projects-end"> Projects End</option>
-    </select>
-
-    <input type="submit" value="Submit"/>
-</form>
-
-<br/>
-<div>
-    Url: <span id="final_url"></span>
-</div>
-<br/>
-<div>
-    Result: <span id="result"></span>
-</div>
-<script type='text/javascript'>
-    var loading = false;
-    $("#form").submit(function (event) {
-        event.preventDefault();
-        if (loading)
-            return;
-        document.getElementById("result").innerHTML = `Loading...`;
-        document.getElementById("final_url").innerHTML = `https://epicalendarv2.omnirem.dev/${event.target[0].value}/${event.target[1].value}.ics`;
-        fetch(`/${event.target[0].value}/${event.target[1].value}.ics`)
-            .then((response) => {
-                if (response.status !== 200) {
-                    response.json().then(function (data) {
-                        document.getElementById("result").innerHTML = data.error;
-                        loading = false;
-                    });
-                } else {
-                    response.text().then(function (data) {
-                        document.getElementById("result").innerHTML = data;
-                        loading = false;
-                    });
-                }
-
-            })
-            .catch(function (err) {
-                document.getElementById("result").innerHTML = err;
-            });
-    });
-</script>
-
+    <div>
+        Url: <span id="final_url"></span>
+    </div>
+    <div>
+        Result: <span id="result"></span>
+    </div>
+</article>
+<script src="index.js"></script>
 </body>
 </html>
